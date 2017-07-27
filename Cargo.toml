@@ -1,0 +1,10 @@
+[package]
+name = "RustQuickstartTemplate"
+version = "0.1.0"
+authors = ["bRad <brad@humanenginuity.com>"]
+
+[dependencies]
+
+[profile.release]
+opt-level = 3
+lto = true
