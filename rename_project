@@ -9,8 +9,10 @@ fi
 
 if [[ ${#} -lt 1 ]] || [[ ${#} -gt 2 ]]; then
 	APP_NAME=$(basename "${0}")
-	echo "${APP_NAME}: Usage: ${APP_NAME} your_project_name [-l]"
-	echo "    Renames the project to your_project_name."
+	echo "${APP_NAME}: Usage: ${APP_NAME} NewRustProject_name"
+	echo "    Renames the project and the update CLion project files to reference NewRustProject_name."
+	echo "    Optionally launches CLion, importing the renamed project if -l switch is present."
+	echo "    This script commits changes to your git log, ensure git status is clean for best results."
 	exit 1
 fi
 
@@ -20,15 +22,10 @@ GITHUB_URL_BASE="github:U007D/"
 find . -not -iname "rename_project" -not -path "./.git" -not -path "./.git/*" -execdir rename "s/${DEFAULT_PROJ_NAME}/${1}/g" '{}' \+
 find . -not -iname "rename_project" -not -path "./.git" -not -path "./.git/*" -type f -exec sed -Ei "s/${DEFAULT_PROJ_NAME}/${1}/g" "{}" \;
 git add -A .
-#git add -f ./.idea
+git add -f ./.idea
 git >/dev/null commit -am "Renamed project to ${1}"
-#git >/dev/null rm -r --cached ./.idea
-#git >/dev/null commit -am "Removed CLion workspace configuration tracking"
+git >/dev/null rm -r --cached ./.idea
+git >/dev/null commit -am "Removed CLion workspace configuration tracking"
 git remote set-url origin "${GITHUB_URL_BASE}${1}.git"
 
 echo "Project renamed to ${1}."
-
-if [[ "${2}" == "-l" ]]; then
-	echo "Launching editor..."
-	code .
-fi

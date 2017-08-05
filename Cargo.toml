@@ -1,10 +1,16 @@
 [package]
-name = "RustQuickstartTemplate"
-version = "0.1.0"
 authors = ["bRad <brad@humanenginuity.com>"]
+name = "RustQuickstartTemplate"
+version = "3.0.0"
 
 [dependencies]
 
+[dependencies.fluent_validator]
+git = "https://github.com/humanenginuity/fluent_validator"
+optional = false
+
+[profile]
+
 [profile.release]
-opt-level = 3
 lto = true
+opt-level = 3
