@@ -1,5 +1,5 @@
 <component name="libraryTable">
-  <library name="Rust &lt;RustQuickstartTemplate&gt;">
+  <library name="Rust &lt;fluent_validator&gt;">
     <CLASSES>
       <root url="file://$USER_HOME$/.rustup/toolchains/nightly-x86_64-apple-darwin/lib/rustlib/src/rust/src/libstd" />
       <root url="file://$USER_HOME$/.rustup/toolchains/nightly-x86_64-apple-darwin/lib/rustlib/src/rust/src/libcore" />

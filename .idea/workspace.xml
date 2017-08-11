@@ -160,23 +160,23 @@
         <subPane>
           <expand>
             <path>
-              <item name="RustQuickstartTemplate" type="dad4c3:CidrFilesViewHelper$MyProjectTreeStructure$1" />
-              <item name="RustQuickstartTemplate" type="462c0819:PsiDirectoryNode" />
+              <item name="fluent_validator" type="dad4c3:CidrFilesViewHelper$MyProjectTreeStructure$1" />
+              <item name="fluent_validator" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
-              <item name="RustQuickstartTemplate" type="dad4c3:CidrFilesViewHelper$MyProjectTreeStructure$1" />
-              <item name="RustQuickstartTemplate" type="462c0819:PsiDirectoryNode" />
+              <item name="fluent_validator" type="dad4c3:CidrFilesViewHelper$MyProjectTreeStructure$1" />
+              <item name="fluent_validator" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
-              <item name="RustQuickstartTemplate" type="dad4c3:CidrFilesViewHelper$MyProjectTreeStructure$1" />
-              <item name="RustQuickstartTemplate" type="462c0819:PsiDirectoryNode" />
+              <item name="fluent_validator" type="dad4c3:CidrFilesViewHelper$MyProjectTreeStructure$1" />
+              <item name="fluent_validator" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="consts" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
-              <item name="RustQuickstartTemplate" type="dad4c3:CidrFilesViewHelper$MyProjectTreeStructure$1" />
-              <item name="RustQuickstartTemplate" type="462c0819:PsiDirectoryNode" />
+              <item name="fluent_validator" type="dad4c3:CidrFilesViewHelper$MyProjectTreeStructure$1" />
+              <item name="fluent_validator" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="consts" type="462c0819:PsiDirectoryNode" />
               <item name="msgs" type="462c0819:PsiDirectoryNode" />
@@ -410,8 +410,8 @@
         </option>
         <option name="nocapture" value="true" />
       </parameters>
-      <module name="RustQuickstartTemplate">
-        <option name="moduleName" value="RustQuickstartTemplate" />
+      <module name="fluent_validator">
+        <option name="moduleName" value="fluent_validator" />
       </module>
     </configuration>
     <configuration name="build release (armv7)" type="CargoCommandRunConfiguration" factoryName="Cargo Command" show_console_on_std_err="false" show_console_on_std_out="false">
@@ -431,8 +431,8 @@
         </option>
         <option name="nocapture" value="true" />
       </parameters>
-      <module name="RustQuickstartTemplate">
-        <option name="moduleName" value="RustQuickstartTemplate" />
+      <module name="fluent_validator">
+        <option name="moduleName" value="fluent_validator" />
       </module>
     </configuration>
     <configuration name="run debug" type="CargoCommandRunConfiguration" factoryName="Cargo Command" singleton="false" show_console_on_std_err="false" show_console_on_std_out="false">
@@ -448,8 +448,8 @@
         </option>
         <option name="nocapture" value="true" />
       </parameters>
-      <module name="RustQuickstartTemplate">
-        <option name="moduleName" value="RustQuickstartTemplate" />
+      <module name="fluent_validator">
+        <option name="moduleName" value="fluent_validator" />
       </module>
     </configuration>
     <configuration name="run release" type="CargoCommandRunConfiguration" factoryName="Cargo Command" show_console_on_std_err="false" show_console_on_std_out="false">
@@ -467,8 +467,8 @@
         </option>
         <option name="nocapture" value="true" />
       </parameters>
-      <module name="RustQuickstartTemplate">
-        <option name="moduleName" value="RustQuickstartTemplate" />
+      <module name="fluent_validator">
+        <option name="moduleName" value="fluent_validator" />
       </module>
     </configuration>
     <configuration name="test debug" type="CargoCommandRunConfiguration" factoryName="Cargo Command" show_console_on_std_err="false" show_console_on_std_out="false">
@@ -491,8 +491,8 @@
         </option>
         <option name="nocapture" value="true" />
       </parameters>
-      <module name="RustQuickstartTemplate">
-        <option name="moduleName" value="RustQuickstartTemplate" />
+      <module name="fluent_validator">
+        <option name="moduleName" value="fluent_validator" />
       </module>
     </configuration>
     <configuration name="test release" type="CargoCommandRunConfiguration" factoryName="Cargo Command" singleton="false" show_console_on_std_err="false" show_console_on_std_out="false">
@@ -516,8 +516,8 @@
         </option>
         <option name="nocapture" value="true" />
       </parameters>
-      <module name="RustQuickstartTemplate">
-        <option name="moduleName" value="RustQuickstartTemplate" />
+      <module name="fluent_validator">
+        <option name="moduleName" value="fluent_validator" />
       </module>
     </configuration>
     <list size="6">

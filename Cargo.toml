@@ -1,6 +1,6 @@
 [package]
 authors = ["bRad <brad@humanenginuity.com>"]
-name = "RustQuickstartTemplate"
+name = "fluent_validator"
 version = "3.0.0"
 
 [dependencies]
