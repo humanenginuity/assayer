@@ -1,46 +1,38 @@
 use super::consts::*;
-use super::fluent_validator;
 use std::error::Error as StdError;
 use std::fmt;
 
+/// This type represents all possible errors that can occur when validating a type.
+#[derive(Clone, Debug, PartialEq, Eq)]
 pub enum Error {
-    ValidatorError(fluent_validator::Error),
+    ValueEmpty(String),
+    ValueInvalid(String),
+    Multiple(Vec<Error>),
 }
 
 impl StdError for Error {
     fn description(&self) -> &str {
         match *self {
-            Error::ValidatorError(_) => ERR_FLUENT_VALIDATION,
-        }
-    }
-
-    fn cause(&self) -> Option<&StdError> {
-        match *self {
-            Error::ValidatorError(ref inner_err) => Some(inner_err),
+            Error::ValueEmpty(ref msg) => msg.as_str(),
+            Error::ValueInvalid(ref msg) => msg.as_str(),
+            Error::Multiple(_) => MSG_ERR_VALIDATION_MULTIPLE,
         }
     }
 }
 
-#[allow(unused_variables)]
+/// Returns the error's `description()` prefixed by the error's type.
 impl fmt::Display for Error {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         match *self {
-            Error::ValidatorError(ref msg) => f.write_str(&err_msg(ERR_VALIDATION, self.description())),
+            Error::ValueEmpty(_) => f.write_str(format!("{}: {}", MSG_ERR_VALIDATION_VALUE_EMPTY, self.description()).as_str()),
+            Error::ValueInvalid(_) => f.write_str(format!("{}: {}", MSG_ERR_VALIDATION_VALUE_INVALID, self.description()).as_str()),
+            Error::Multiple(ref slice) => {
+                let mut msg = format!("{}:", self.description());
+                for (i, err) in slice.iter().enumerate() {
+                    msg.push_str(format!("\n\t#{}: {}", i + 1, &err.to_string()).as_str());
+                }
+                f.write_str(msg.as_str())
+            },
         }
     }
-}
-
-//#[allow(dead_code)]
-impl fmt::Debug for Error {
-    fn fmt(&self, f: &mut fmt::Formatter) -> Result<(), fmt::Error> {
-        fmt::Display::fmt(&self, f)
-    }
-}
-
-fn err_msg(err_name: &str, err_detail: &str)-> String {
-    format!("{}: {}!", err_name, err_detail)
-}
-
-impl From<fluent_validator::Error> for Error {
-    fn from(error: fluent_validator::Error) -> Self { Error::ValidatorError(error) }
 }
