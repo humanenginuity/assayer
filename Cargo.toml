@@ -1,13 +1,9 @@
 [package]
 authors = ["bRad <brad@humanenginuity.com>"]
-name = "fluent_validator"
+name = "assayer"
 version = "0.2.0"
 
 [dependencies]
-
-[dependencies.fluent_validator]
-git = "https://github.com/humanenginuity/fluent_validator"
-optional = false
 
 [profile]
 

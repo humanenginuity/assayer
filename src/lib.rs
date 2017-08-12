@@ -12,40 +12,40 @@ mod error;
 pub use self::error::Error;
 pub type Result<T> = std::result::Result<T, Error>;
 
-//Ref Validators
+// Ref Validators
 pub trait ValidatorRef<T> {
     fn validate_ref(value: &T) -> Result<&T>;
 }
 
-pub trait FluentValidatorRef: Sized {
+pub trait MethodSyntaxValidatorRef: Sized {
     fn validate_ref<T: ValidatorRef<Self>>(&self) -> Result<&Self>;
 }
 
-impl<T> FluentValidatorRef for T {
+impl<T> MethodSyntaxValidatorRef for T {
     fn validate_ref<U: ValidatorRef<Self>>(&self) -> Result<&Self> { U::validate_ref(self) }
 }
 
-//MutRef Validators
+// MutRef Validators
 pub trait ValidatorMutRef<T> {
     fn validate_mut_ref(value: &mut T) -> Result<&mut T>;
 }
 
-pub trait FluentValidatorMutRef: Sized {
+pub trait MethodSyntaxValidatorMutRef: Sized {
     fn validate_mut_ref<T: ValidatorMutRef<Self>>(&mut self) -> Result<&mut Self>;
 }
-impl<T> FluentValidatorMutRef for T {
+impl<T> MethodSyntaxValidatorMutRef for T {
     fn validate_mut_ref<U: ValidatorMutRef<Self>>(&mut self) -> Result<&mut Self> { U::validate_mut_ref(self) }
 }
 
-//Consuming Validators
+// Consuming Validators
 pub trait Validator<T> {
     fn validate(value: T) -> Result<T>;
 }
 
-pub trait FluentValidator: Sized {
+pub trait MethodSyntaxValidator: Sized {
     fn validate<T: Validator<Self>>(self) -> Result<Self>;
 }
 
-impl<T> FluentValidator for T {
+impl<T> MethodSyntaxValidator for T {
     fn validate<U: Validator<Self>>(self) -> Result<Self> { U::validate(self) }
 }
