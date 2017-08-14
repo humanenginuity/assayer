@@ -20,13 +20,14 @@ in your application requiring validation.
 ### Quickstart  
 - Define your custom validator (eg. for non-empty strings) by implementing `ValidatorRef` and/or `ValidatorMutRef`
 and/or `Validator`.  `ValidatorRef` example:
+
 ```rust
-impl ValidatorRef<String> for NonEmptyStringValidator {
-    fn validate_ref(v: &String) -> Result<&String> {
+impl assayer::ValidatorRef<String> for NonEmptyStringValidator {
+    fn validate_ref(v: &String) -> assayer::Result<&String> {
        Ok(v)
            .and_then(|v| match !v.is_empty() {
                 true => Ok(v),
-                false => Err(Error::ValueEmpty(VAL_ERR_EMPTY_VALUE.to_string())),
+                false => Err(assayer::Error::ValueEmpty("Empty Value Error".to_string())),
             })
          
            // Chain as many additional .and_then() clauses as you need to validate your input.
@@ -43,15 +44,19 @@ impl ValidatorRef<String> for NonEmptyStringValidator {
 }
 ```
 To call the the validator, use either the function- or method-call syntax illustrated below:
+
 ```rust
-    let foo = String::new();    //This is an empty String
-    let bar = "I am not empty".to_string();
-    
-    let function_call_syntax_result = String::validate_ref::<NonEmptyStringValidator>(&foo);
-    let method_call_syntax_result = (&bar).validate_ref::<NonEmptyStringValidator>();
-    
-    assert_eq(function_call_syntax_result.err(), Some(Error::ValueEmpty(VAL_ERR_EMPTY_VALUE.to_string()));
-    assert_eq(method_call_syntax_result.ok(), Some(bar));
+let foo = String::new();    //This is an empty String
+let bar = "I am not empty".to_string();
+
+// Function synthax
+let function_call_syntax_result = String::validate_ref::<NonEmptyStringValidator>(&foo);
+
+// Method synthax
+let method_call_syntax_result = (&bar).validate_ref::<NonEmptyStringValidator>();
+
+assert_eq!(function_call_syntax_result.err(), Some(assayer::Error::ValueEmpty("Empty Value Error".to_string())));
+assert_eq!(method_call_syntax_result.ok(), Some(&bar));
 ```
 ### FAQ
 #### What are some of Assayer's design goals?
@@ -89,46 +94,49 @@ convenient to switch styles under different circumstances.  The choice is yours.
 
 #### When should I implement `Validator` vs. `ValidatorRef` vs. `ValidatorMutRef`?
 Implementing `Validator` means that the call will consume your value:
+
 ```rust
-impl Validator<String> for NonEmptyStringValidator {
-    fn validate(v: String) -> Result<String> {
+impl assayer::Validator<String> for NonEmptyStringValidator {
+    fn validate(v: String) -> assayer::Result<String> {
        Ok(v)
            .and_then(|v| match !v.is_empty() {
                 true => Ok(v),
-                false => Err(Error::ValueEmpty(VAL_ERR_EMPTY_VALUE.to_string())),
+                false => Err(assayer::Error::ValueEmpty("Empty Value Error".to_string())),
             })
     }
 }
 
-fn foo() {
+fn main() {
     let input = "Not an empty string".to_string();
-    let result = input.validate::<NotEmptyStringValidator>();
-    assert_eq!(result.ok(), Some(input)); //Oops!  input has been moved!
+    let result = input.validate::<NonEmptyStringValidator>();
+    // assert_eq!(result.ok(), Some(input)); //Oops!  input has been moved!
+    assert_eq!(result.ok(), Some("Not an empty string".to_string()));
 }
 ```
-To remedy this, either use `input.clone().validate::<NotEmptyStringValidator>()` or implement `ValidateRef` and use
-`(&input).validate_ref::<NotEmptyStringValidator>()`.
+To remedy this, either use `input.clone().validate::<NonEmptyStringValidator>()` or implement `ValidateRef` and use
+`(&input).validate_ref::<NonEmptyStringValidator>()`.
 
 The case for implementing `ValidatorMutRef` is somewhat rare and arguably a violation of the Single Responsibility
 Principle.  Whether you consider it to be or not, it can be used to 'fix up' an incoming value before it is used by your
 post-validation code (you might want to pad or round the input value before it is used, for example).  Here is how it is used:
+
 ```rust
-impl ValidatorMutRef<String> for NonEmptyStringValidator {
-    fn validate_mut_ref(v: &mut String) -> Result<&mut String> {
+impl assayer::ValidatorMutRef<String> for NonEmptyStringValidator {
+    fn validate_mut_ref(v: &mut String) -> assayer::Result<&mut String> {
        Ok(v)
            .and_then(|v| match !v.is_empty() {
-                true => { v = v + "!"; Ok(v) }, 
-                false => Err(Error::ValueEmpty(VAL_ERR_EMPTY_VALUE.to_string())),
+                true => { v.push_str("!"); Ok(v) }, 
+                false => Err(assayer::Error::ValueEmpty("Empty Value Error".to_string())),
             })
     }
 }
 
-fn foo() {
+fn main() {
     let mut input = "Not an empty string".to_string();
     let mut expected_result_inner = "Not an empty string!".to_string();
     let expected_result = Some(&mut expected_result_inner);
     
-    let result = (&mut input).validate::<NotEmptyStringValidator>();
+    let result = (&mut input).validate_mut_ref::<NonEmptyStringValidator>();
     assert_eq!(result.ok(), expected_result);
 }
 ```
