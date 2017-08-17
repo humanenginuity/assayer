@@ -12,7 +12,7 @@ use std::error::Error as StdError;
 use std::fmt;
 
 /// This type represents all possible errors that can occur when validating a type.
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Clone)]
 pub enum Error {
     ValueEmpty(String),
     ValueInvalid(String),
