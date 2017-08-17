@@ -13,13 +13,12 @@
 #![warn(missing_debug_implementations, missing_copy_implementations, trivial_casts, trivial_numeric_casts, unused_import_braces, unused_qualifications)]
 #![deny(unused_must_use, overflowing_literals)]
 
-mod consts;
-mod error;
-
+pub mod consts;
+pub mod error;
 #[cfg(test)] mod unit_tests;
+use error::Error;
 
-pub use self::error::Error;
-pub type Result<T> = std::result::Result<T, Error>;
+type Result<T> = std::result::Result<T, Error>;
 
 // Ref Validators
 pub trait ValidatorRef<T> {
