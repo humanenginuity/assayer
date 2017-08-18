@@ -14,9 +14,9 @@
 #![deny(unused_must_use, overflowing_literals)]
 
 pub mod consts;
-pub mod error;
+mod error;
 #[cfg(test)] mod unit_tests;
-use error::Error;
+pub use error::Error;
 
 type Result<T> = std::result::Result<T, Error>;
 
