@@ -15,6 +15,7 @@ use std::fmt;
 #[derive(Debug, PartialEq, Clone)]
 pub enum Error {
     ValueEmpty(String),
+    ValueOutOfRange(String),
     ValueInvalid(String),
     Multiple(Vec<Error>),
 }
@@ -23,6 +24,7 @@ impl StdError for Error {
     fn description(&self) -> &str {
         match *self {
             Error::ValueEmpty(ref msg) => msg.as_str(),
+            Error::ValueOutOfRange(ref msg) => msg.as_str(),
             Error::ValueInvalid(ref msg) => msg.as_str(),
             Error::Multiple(_) => MSG_ERR_VALIDATION_MULTIPLE,
         }
@@ -34,6 +36,7 @@ impl fmt::Display for Error {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         match *self {
             Error::ValueEmpty(_) => f.write_str(format!("{}: {}", MSG_ERR_VALIDATION_VALUE_EMPTY, self.description()).as_str()),
+            Error::ValueOutOfRange(_) => f.write_str(format!("{}: {}", MSG_ERR_VALIDATION_VALUE_OUT_OF_RANGE, self.description()).as_str()),
             Error::ValueInvalid(_) => f.write_str(format!("{}: {}", MSG_ERR_VALIDATION_VALUE_INVALID, self.description()).as_str()),
             Error::Multiple(ref slice) => {
                 let mut msg = format!("{}:", self.description());

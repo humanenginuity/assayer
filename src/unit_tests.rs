@@ -18,30 +18,30 @@ struct NonEmptyStringValidator {
 
 //Example DRY implementation of ref, mut_ref and consuming validator
 impl ValidatorRef<String> for NonEmptyStringValidator {
-    fn validate_ref(v: &String) -> Result<&String> {
-       Ok(v)
-           .and_then(|v| match !v.is_empty() {
-                true => Ok(v),
+    fn validate_ref(input: &String) -> Result<&String> {
+       Ok(input)
+           .and_then(|input| match !input.is_empty() {
+                true => Ok(input),
                 false => Err(Error::ValueEmpty(MSG_ERR_VALIDATION_VALUE_EMPTY.to_string())),
             })
     }
 }
 
 impl ValidatorMutRef<String> for NonEmptyStringValidator {
-    fn validate_mut_ref(v: &mut String) -> Result<&mut String> {
-        Ok(v)
-            .and_then(|v| match (&*v).validate_ref::<NonEmptyStringValidator>() {
-                Ok(_) => Ok(v),
+    fn validate_mut_ref(input: &mut String) -> Result<&mut String> {
+        Ok(input)
+            .and_then(|input| match (&*input).validate_ref::<NonEmptyStringValidator>() {
+                Ok(_) => Ok(input),
                 Err(err) => Err(err),
             })
     }
 }
 
 impl Validator<String> for NonEmptyStringValidator {
-    fn validate(v: String) -> Result<String> {
-        Ok(v)
-            .and_then(|v| match (&v).validate_ref::<NonEmptyStringValidator>() {
-                Ok(_) => Ok(v),
+    fn validate(input: String) -> Result<String> {
+        Ok(input)
+            .and_then(|input| match (&input).validate_ref::<NonEmptyStringValidator>() {
+                Ok(_) => Ok(input),
                 Err(err) => Err(err),
             })
     }
