@@ -148,6 +148,7 @@ fn main() {
 
 Finally, if you simply want all three implementations to "just work" whenever you implement one, implement ValidateRef as per above according to your needs, and "blanket implementations" for ValidateMutRef and Validate as follows:
 
+```rust
 impl ValidatorMutRef<String> for NonEmptyStringValidator {
     fn validate_mut_ref(input: &mut String) -> Result<&mut String> {
         Ok(input)
@@ -167,4 +168,4 @@ impl Validator<String> for NonEmptyStringValidator {
             })
     }
 }
-
+```
