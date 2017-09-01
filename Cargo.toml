@@ -1,8 +1,3 @@
-[package]
-authors = ["Human Enginuity <hello@humanenginuity.com>"]
-name = "assayer"
-version = "0.2.0"
-
 [dependencies]
 
 [profile]
@@ -12,6 +7,10 @@ lto = true
 opt-level = 3
 
 [package]
+authors = ["Human Enginuity <hello@humanenginuity.com>"]
+name = "assayer"
+version = "0.2.0"
+
 # A short blurb about the package. This is not rendered in any format when
 # uploaded to crates.io (aka this is not markdown).
 description = "A static (compile-time) validation library for Rust"
@@ -30,7 +29,7 @@ readme = "README.md"
 # This is a list of up to five keywords that describe this crate. Keywords
 # are searchable on crates.io, and you may choose any words that would
 # help someone find this crate.
-keywords = ["validator", "validation", "input validator", "input validation", "fluent validator"]
+keywords = ["validator", "validation", "input_validator", "input_validation", "fluent_validator"]
 
 # This is a list of up to five categories where this crate would fit.
 # Categories are a fixed list available at crates.io/category_slugs, and
@@ -41,12 +40,12 @@ keywords = ["validator", "validation", "input validator", "input validation", "f
 # crates.io will validate the license provided against a whitelist of known
 # license identifiers from http://spdx.org/licenses/. Multiple licenses can be
 # separated with a `/`.
-license = "	Apache-2.0/MIT"
+license = "Apache-2.0/MIT"
 
 # If a project is using a nonstandard license, then this key may be specified in
 # lieu of the above key and must point to a file relative to this manifest
 # (similar to the readme key).
-license-file = "..."
+#license-file = "..."
 
 # Optional specification of badges to be displayed on crates.io. The badges
 # pertaining to build status that are currently available are Appveyor, CircleCI,
