@@ -9,7 +9,7 @@
 Frequently, programs need to process untrusted input.  Before doing so, it is important to ensure that the values being
 processed are, in fact, valid for the purpose for which they are intended.
 
-Values representing the hour of the day, the day of the month, a person's age, a URL, phone number, and so on.
+Examples include values representing the hour of the day, the day of the month, a person's age, a URL, phone number, and so on.
 Regardless of the underlying data type (integer, string, custom struct, etc.) some values are valid, and some are not.
 
 As a validation library, Assayer allows you to build efficient, highly cohesive code by concentrating your custom
@@ -52,16 +52,22 @@ impl ValidatorRef<String> for NonEmptyString {
 ```
 To call the the validator, use either the function- or method-call syntax illustrated below:
 ```rust
+    //Function-call syntax example
     let empty_string = String::new();
-    let non_empty_string = "Not an empty string".to_string();
-
     let function_call_syntax_result = String::validate_ref::<NonEmptyString>(&empty_string);
-    let method_call_syntax_result = (&non_empty_string).validate_ref::<NonEmptyString>();
-
     assert_eq!(function_call_syntax_result.err(),
                Some(AssayerError::ValueEmpty("<Validation failure message here>".to_string())));
+
+    //Method-call syntax example
+    let non_empty_string = "Not an empty string".to_string();
+    let method_call_syntax_result = (&non_empty_string).validate_ref::<NonEmptyString>();
     assert_eq!(method_call_syntax_result.ok(), Some(&non_empty_string));
 ```
+
+Usage note: The above is just a quick example to illustrate how to set up can call the library.  In practice, you could 
+have your custom type's constructor(s) call the validator on any input parameters, so that the type, once successfully
+constructed, could provide strong guarantees that its contents are always valid.
+
 ### FAQ
 #### What are some of Assayer's design goals?
 ##### • Lightweight, Zero Dependencies
@@ -69,39 +75,35 @@ Languages have long been heading down the path of pulling in other "modules" and
 community is particularly notable in this regard).  Rust's Cargo and crate system brings easy dependencies to Rust,
 which we fully welcome.  At the same time, we are fans of beautiful, maintainable, predictable, small focuse code.  When
 less code can do more, we think that kind of efficiency gain is particularly elegant.  So the library ended up being a
-grand total of six trait definitions, plus three blanket impls (which is how `MethodSyntaxValidator<SomeType>` gets defined
-automatically when you as the user implement only `Validator<SomeType>`), and no dependencies.
-you as the user of the library )
+grand total of six trait definitions, plus three blanket impls and no dependencies.
 
-##### • Facilitating High Cohesion, Single-Responsiblity, Don't Repeat Yourself Principles
+##### • Facilitating High Cohesion, Single-Responsiblity and Don't Repeat Yourself Principles
 A validator allows you to factor out all your checking into pre-conditions all in one place.  When all the code in a
 routine is focused on achieving the same goal, you get high cohesion, which as been shown to be very beneficial to the
-reliability and maintainability of a given codebase.
+reliability and maintainability of a codebase.
 
 By focusing only validation code into a validator, the validator becomes responsible for just one thing: validation.
 The single-responsibility principle helps to keep the code from growing into a "god object", which, if you've ever had
-the pleasure of working on one, we're sure you'll agree you don't want to go back any time soon!
+the pleasure of working with, we're sure you'll agree you don't want to go back any time soon!
 
 ##### • Static (compile-time) validator
 As a static validator, the validation chain you create is able to fully benefit from the compiler optimizers.  A dynamic
 validator using, for example, the builder pattern at run-time cannot realize these benefits, because the validation chain
-does not exist as compile time.
+does not exist as a chain at compile time.
 
 We thought about various use-cases, and could not think of a drawback for static validators.  If you come across a
-compelling, please let us know!
+compelling case for dynamic validators, please let us know!
 
-#### What is the difference between function-call syntax and method-call syntax?
-From a code perspective, none.  (For the tests we've run under Rust v1.18.0, the compiler yields 100% identical assembly
+### What is the difference between function-call syntax and method-call syntax?
+From a code perspective, none.  (For the tests we've run under Rust v1.18.0, the compiler emits 100% identical assembly
 instructions.)
 
 From a personal perspective, you may be more comfortable with one style or the other, or it may be
 convenient to use one particular style or the other under specific circumstances.  The choice is yours.
 
-#### When should I implement `Validator` vs. `ValidatorRef` vs. `ValidatorMutRef`?
+### When should I implement `Validator` vs. `ValidatorRef` vs. `ValidatorMutRef`?
 Implementing `Validator` means that your validator will *consume* the value being passed by the caller:
 ```rust
-struct NonEmptyStringValidator;
-
 impl Validator<String> for NonEmptyString {
     fn validate(input: String) -> std::result::Result<String, AssayerError> {
         Ok(input)
@@ -118,9 +120,8 @@ fn main() {
     assert_eq!(result.ok(), Some(input)); //Oops!  input has been moved!
 }
 ```
-If this is undesirable, either:
-	- the caller can use `input.clone().validate::<NotEmptyStringValidator>()`, or
-	- you may choose to implement `ValidateRef` and use `(&input).validate_ref::<NotEmptyStringValidator>()`.
+If this is undesirable, either a) the caller can call the validator using clone(): `input.clone().validate::<NonEmptyString>()`,
+or b) you may choose to implement `ValidateRef` and the caller can call the validator using: `(&input).validate_ref::<NonEmptyString>()`.
 
 The case for implementing `ValidatorMutRef` is somewhat rare and arguably a violation of the Single Responsibility
 Principle.  Whether you consider it to be or not, it can be used to 'fix up' an incoming value before it is used by your
@@ -149,20 +150,20 @@ fn main() {
 Finally, if you simply want all three implementations to "just work" whenever you implement one, implement ValidateRef as per above according to your needs, and "blanket implementations" for ValidateMutRef and Validate as follows:
 
 ```rust
-impl ValidatorMutRef<String> for NonEmptyStringValidator {
+impl ValidatorMutRef<String> for NonEmptyString {
     fn validate_mut_ref(input: &mut String) -> Result<&mut String> {
         Ok(input)
-            .and_then(|input| match (&*input).validate_ref::<NonEmptyStringValidator>() {
+            .and_then(|input| match (&*input).validate_ref::<NonEmptyString>() {
                 Ok(_) => Ok(input),
                 Err(err) => Err(err),
             })
     }
 }
 
-impl Validator<String> for NonEmptyStringValidator {
+impl Validator<String> for NonEmptyString {
     fn validate(input: String) -> Result<String> {
         Ok(input)
-            .and_then(|input| match (&input).validate_ref::<NonEmptyStringValidator>() {
+            .and_then(|input| match (&input).validate_ref::<NonEmptyString>() {
                 Ok(_) => Ok(input),
                 Err(err) => Err(err),
             })

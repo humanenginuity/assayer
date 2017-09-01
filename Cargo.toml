@@ -9,7 +9,7 @@ opt-level = 3
 [package]
 authors = ["Human Enginuity <hello@humanenginuity.com>"]
 name = "assayer"
-version = "0.2.0"
+version = "0.2.2"
 
 # A short blurb about the package. This is not rendered in any format when
 # uploaded to crates.io (aka this is not markdown).
@@ -88,4 +88,4 @@ license = "Apache-2.0/MIT"
 # Maintenance: `status` is required Available options are `actively-developed`,
 # `passively-maintained`, `as-is`, `none`, `experimental`, `looking-for-maintainer`
 # and `deprecated`.
-maintenance = { status = "as-is" }
+#maintenance = { status = "actively-developed" }
