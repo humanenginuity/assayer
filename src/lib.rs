@@ -13,10 +13,12 @@
 #![warn(missing_debug_implementations, missing_copy_implementations, trivial_casts, trivial_numeric_casts, unused_import_braces, unused_qualifications)]
 #![deny(unused_must_use, overflowing_literals)]
 
+#[macro_use] extern crate error_def;
+
+#[cfg(test)] mod unit_tests;
 pub mod consts;
 mod error;
-#[cfg(test)] mod unit_tests;
-pub use error::Error;
+pub use error::*;
 
 type Result<T> = std::result::Result<T, Error>;
 
