@@ -14,12 +14,16 @@ license = "Apache-2.0/MIT"
 name = "assayer"
 readme = "README.md"
 repository = "https://github.com/humanenginuity/assayer"
-version = "0.2.2"
+version = "0.3.0"
 
 [badges]
-
-[dependencies]
-error_def = "0.3.14"
 [profile.release]
 lto = true
 opt-level = 3
+
+[dependencies.derive-fail]
+git = "https://github.com/withoutboats/derive-fail"
+
+[dependencies.failure]
+git = "https://github.com/withoutboats/failure"
+

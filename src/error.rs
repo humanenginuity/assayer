@@ -7,41 +7,34 @@
 // option. This file may not be copied, modified, or distributed
 // except according to those terms.
 
+use std::fmt;
 use super::consts::*;
-pub use std::error::Error as StdError;
 
-pub trait ErrorExt {
-    fn display_chain(&self) -> String;
+#[derive(Fail, Debug)]
+pub enum Error {
+    ValueNone,
+    ValueSome,
+    ValueNull,
+    ValueMissing,
+    ValueExtra,
+    ValueInvalid,
+    ValueFormatInvalid,
+    ValueOutOfRange,
+    ValueTypeMismatch,
 }
 
-impl<'a> ErrorExt for &'a StdError {
-    fn display_chain(&self) -> String {
-        format!("{}: {}\n", MSG_ERR, self) +
-            &match self.cause() {
-                None => "a" String::new(),
-                Some(cause) => "a" MSG_CAUSED_BY.to_string() + ": " + &cause.display_chain(),
-            }
-    }
-}
-
-error_def! {
-    Error {
-        ValueNone => "Assayer::Error::ValueNone" (MSG_DISP_ERR_VALIDATION_VALUE_NONE),
-//        ValueSome => "Assayer::Error::ValueSome" (MSG_DISP_ERR_VALIDATION_VALUE_SOME),
-//        ValueNull => "Assayer::Error::ValueNull" (MSG_DISP_ERR_VALIDATION_VALUE_NULL),
-//        ValueMissing => "Assayer::Error::ValueMissing" (MSG_DISP_ERR_VALIDATION_VALUE_MISSING),
-//        ValueMissingHinted(hint: String) => "Assayer::Error::ValueMissingHinted" (MSG_DISP_ERR_VALIDATION_VALUE_MISSING_HINT, hint),
-//        ValueExtra => "Assayer::Error::ValueExtra" (MSG_DISP_ERR_VALIDATION_VALUE_EXTRA),
-//        ValueExtraHinted(hint: String) => "Assayer::Error::ValueExtraHinted" (MSG_DISP_ERR_VALIDATION_VALUE_EXTRA_HINT, hint),
-//        ValueInvalid(value: String) => "Assayer::Error::ValueInvalid" (MSG_DISP_ERR_VALIDATION_VALUE_INVALID, value),
-//        ValueInvalidHinted(value: String, hint: String) => "Assayer::Error::ValueInvalidHinted" (MSG_DISP_ERR_VALIDATION_VALUE_INVALID_HINT, value, hint),
-//        ValueFormatInvalid(value: String) => "Assayer::Error::ValueFormatInvalid" (MSG_DISP_ERR_VALIDATION_VALUE_FORMAT_INVALID, value),
-//        ValueFormatInvalidHinted(value: String, hint: String) => "Assayer::Error::ValueFormatInvalidHinted" (MSG_DISP_ERR_VALIDATION_VALUE_FORMAT_INVALID_HINT, value, hint),
-//        ValueOutOfRange(value: String) => "Assayer::Error::ValueOutOfRange" (MSG_DISP_ERR_VALIDATION_VALUE_OUT_OF_RANGE, value),
-//        ValueOutOfRangeBegEnd(value: String, beg: String, end: String) => "Assayer::Error::ValueOutOfRangeBegEnd" (MSG_DISP_ERR_VALIDATION_VALUE_OUT_OF_RANGE_BEG_END, value,begin, end),
-//        ValueOutOfRangeHinted(value: String, hint: String) => "Assayer::Error::ValueOutOfRangeHinted" (MSG_DISP_ERR_VALIDATION_VALUE_OUT_OF_RANGE_HINT, value, hint),
-//        ValueTypeMismatch(value: String) => "Assayer::Error::ValueTypeMismatch" (MSG_DISP_ERR_VALIDATION_VALUE_TYPE_MISMATCH, value),
-//        ValueTypeMismatchHinted(value: String, hint: String) => "Assayer::Error::ValueTypeMismatchHinted" (MSG_DISP_ERR_VALIDATION_VALUE_TYPE_MISMATCH_HINT, value, hint),
-        TestError { #[from] cause: io::Error, => "Assayer::Error::TestError" "TestI/O error", }
+impl fmt::Display for Error {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(f, "{}", match *self {
+            ValueNone => MSG_DISP_ERR_VALIDATION_VALUE_NONE,
+            ValueSome => MSG_DISP_ERR_VALIDATION_VALUE_SOME,
+            ValueNull => MSG_DISP_ERR_VALIDATION_VALUE_NULL,
+            ValueMissing => MSG_DISP_ERR_VALIDATION_VALUE_MISSING,
+            ValueExtra => MSG_DISP_ERR_VALIDATION_VALUE_EXTRA,
+            ValueInvalid => MSG_DISP_ERR_VALIDATION_VALUE_INVALID,
+            ValueFormatInvalid => MSG_DISP_ERR_VALIDATION_VALUE_FORMAT_INVALID,
+            ValueOutOfRange => MSG_DISP_ERR_VALIDATION_VALUE_OUT_OF_RANGE,
+            ValueTypeMismatch => MSG_DISP_ERR_VALIDATION_VALUE_TYPE_MISMATCH,
+        })
     }
 }
