@@ -13,8 +13,6 @@
 #![warn(missing_debug_implementations, missing_copy_implementations, trivial_casts, trivial_numeric_casts, unused_import_braces, unused_qualifications)]
 #![deny(unused_must_use, overflowing_literals)]
 #![deny(unused_must_use, overflowing_literals)]
-#![feature(plugin)]
-#![plugin(error_def)]
 
 extern crate failure;
 #[macro_use] extern crate derive_fail;

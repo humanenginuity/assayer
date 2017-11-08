@@ -10,7 +10,7 @@
 use std::fmt;
 use super::consts::*;
 
-#[derive(Fail, Debug)]
+#[derive(Fail, Debug, PartialEq)]
 pub enum Error {
     ValueNone,
     ValueSome,
@@ -25,7 +25,7 @@ pub enum Error {
 
 impl fmt::Display for Error {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(f, "{}", match *self {
+        write!(f, "{}", match self {
             ValueNone => MSG_DISP_ERR_VALIDATION_VALUE_NONE,
             ValueSome => MSG_DISP_ERR_VALIDATION_VALUE_SOME,
             ValueNull => MSG_DISP_ERR_VALIDATION_VALUE_NULL,
