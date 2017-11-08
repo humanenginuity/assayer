@@ -12,15 +12,18 @@
 #![allow(non_camel_case_types)]
 #![warn(missing_debug_implementations, missing_copy_implementations, trivial_casts, trivial_numeric_casts, unused_import_braces, unused_qualifications)]
 #![deny(unused_must_use, overflowing_literals)]
+#![deny(unused_must_use, overflowing_literals)]
 
-#[macro_use] extern crate error_def;
+extern crate failure;
+#[macro_use] extern crate derive_fail;
 
 #[cfg(test)] mod unit_tests;
 pub mod consts;
 mod error;
-pub use error::*;
 
-type Result<T> = std::result::Result<T, Error>;
+pub use error::Error;
+
+type Result<T> = std::result::Result<T, self::error::Error>;
 
 // Ref Validators
 pub trait ValidatorRef<T> {
@@ -47,7 +50,7 @@ impl<T> MethodSyntaxValidatorMutRef for T {
     fn validate_mut_ref<U: ValidatorMutRef<Self>>(&mut self) -> Result<&mut Self> { U::validate_mut_ref(self) }
 }
 
-// Consuming Validators
+// By-Value (Consuming) Validators
 pub trait Validator<T> {
     fn validate(value: T) -> Result<T>;
 }
