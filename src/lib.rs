@@ -9,9 +9,7 @@
 
 #![cfg_attr(feature="clippy", feature(plugin))]
 #![cfg_attr(feature="clippy", plugin(clippy))]
-#![allow(non_camel_case_types)]
-#![warn(missing_debug_implementations, missing_copy_implementations, trivial_casts, trivial_numeric_casts, unused_import_braces, unused_qualifications)]
-#![deny(unused_must_use, overflowing_literals)]
+#![warn(missing_debug_implementations, non_camel_case_types, /*missing_copy_implementations,*/ trivial_casts, trivial_numeric_casts, unused_import_braces, unused_qualifications)]
 #![deny(unused_must_use, overflowing_literals)]
 
 extern crate failure;
@@ -23,7 +21,7 @@ mod error;
 
 pub use error::Error;
 
-type Result<T> = std::result::Result<T, self::error::Error>;
+type Result<T> = std::result::Result<T, Error>;
 
 // Ref Validators
 pub trait ValidatorRef<T> {

@@ -10,7 +10,6 @@
 #[allow(unused_imports)]
 use super::*;
 use super::Error;
-use consts::*;
 
 #[derive(Debug, PartialEq, Eq)]
 struct NonEmptyStringValidator {
@@ -23,7 +22,7 @@ impl ValidatorRef<String> for NonEmptyStringValidator {
        Ok(input)
            .and_then(|input| match !input.is_empty() {
                 true => Ok(input),
-                false => Err(Error::ValueNone),
+                false => Err(Error::NoValue),
             })
     }
 }
@@ -59,7 +58,7 @@ fn string_validator_ref_handles_non_empty_input() {
 #[test]
 fn string_validator_ref_handles_empty_input() {
     let input = String::new();
-    let expected_result = Some(Error::ValueNone);
+    let expected_result = Some(Error::NoValue);
 
     assert_eq!((&input).validate_ref::<NonEmptyStringValidator>().err(), expected_result);
 }
@@ -76,7 +75,7 @@ fn string_validator_mut_ref_handles_non_empty_input() {
 #[test]
 fn string_validator_mut_ref_handles_empty_input() {
     let mut input = String::new();
-    let expected_result = Some(Error::ValueNone);
+    let expected_result = Some(Error::NoValue);
 
     assert_eq!((&mut input).validate_mut_ref::<NonEmptyStringValidator>().err(), expected_result);
 }
@@ -92,7 +91,7 @@ fn string_validator_handles_non_empty_input() {
 #[test]
 fn string_validator_handles_empty_input() {
     let input = String::new();
-    let expected_result = Some(Error::ValueNone);
+    let expected_result = Some(Error::NoValue);
 
     assert_eq!(input.validate::<NonEmptyStringValidator>().err(), expected_result);
 }

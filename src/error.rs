@@ -12,12 +12,12 @@ use super::consts::*;
 
 #[derive(Fail, Debug, PartialEq)]
 pub enum Error {
-    ValueNone,
-    ValueSome,
-    ValueNull,
-    ValueMissing,
-    ValueExtra,
-    ValueInvalid,
+    NoValue,
+    HasValue,
+    EmptyValue,
+    MissingValue,
+    ExtraValue,
+    InvalidValue,
     ValueFormatInvalid,
     ValueOutOfRange,
     ValueTypeMismatch,
@@ -25,16 +25,16 @@ pub enum Error {
 
 impl fmt::Display for Error {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(f, "{}", match self {
-            ValueNone => MSG_DISP_ERR_VALIDATION_VALUE_NONE,
-            ValueSome => MSG_DISP_ERR_VALIDATION_VALUE_SOME,
-            ValueNull => MSG_DISP_ERR_VALIDATION_VALUE_NULL,
-            ValueMissing => MSG_DISP_ERR_VALIDATION_VALUE_MISSING,
-            ValueExtra => MSG_DISP_ERR_VALIDATION_VALUE_EXTRA,
-            ValueInvalid => MSG_DISP_ERR_VALIDATION_VALUE_INVALID,
-            ValueFormatInvalid => MSG_DISP_ERR_VALIDATION_VALUE_FORMAT_INVALID,
-            ValueOutOfRange => MSG_DISP_ERR_VALIDATION_VALUE_OUT_OF_RANGE,
-            ValueTypeMismatch => MSG_DISP_ERR_VALIDATION_VALUE_TYPE_MISMATCH,
+        write!(f, "{}", match *self {
+            Error::NoValue => MSG_DISP_ERR_VALIDATION_NO_VALUE,
+            Error::HasValue => MSG_DISP_ERR_VALIDATION_HAS_VALUE,
+            Error::EmptyValue => MSG_DISP_ERR_VALIDATION_NULL_VALUE,
+            Error::MissingValue => MSG_DISP_ERR_VALIDATION_MISSING_VALUE,
+            Error::ExtraValue => MSG_DISP_ERR_VALIDATION_VALUE_EXTRA,
+            Error::InvalidValue => MSG_DISP_ERR_VALIDATION_VALUE_INVALID,
+            Error:: ValueFormatInvalid => MSG_DISP_ERR_VALIDATION_VALUE_FORMAT_INVALID,
+            Error::ValueOutOfRange => MSG_DISP_ERR_VALIDATION_VALUE_OUT_OF_RANGE,
+            Error::ValueTypeMismatch => MSG_DISP_ERR_VALIDATION_VALUE_TYPE_MISMATCH,
         })
     }
 }

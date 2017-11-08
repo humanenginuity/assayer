@@ -11,10 +11,10 @@
 pub const MSG_ERR: &'static str = "Error";
 pub const MSG_CAUSED_BY: &'static str = "caused by";
 
-pub const MSG_DISP_ERR_VALIDATION_VALUE_NONE: &'static str = "Found `None` value but expected a `Some()` value";
-pub const MSG_DISP_ERR_VALIDATION_VALUE_SOME: &'static str = "Found `Some()` value but expected a `None` value";
-pub const MSG_DISP_ERR_VALIDATION_VALUE_NULL: &'static str = "Found `null` value but expected a non-null value";
-pub const MSG_DISP_ERR_VALIDATION_VALUE_MISSING: &'static str = "Missing one or more expected values";
+pub const MSG_DISP_ERR_VALIDATION_NO_VALUE: &'static str = "Found `None` value but expected a `Some()` value";
+pub const MSG_DISP_ERR_VALIDATION_HAS_VALUE: &'static str = "Found `Some()` value but expected a `None` value";
+pub const MSG_DISP_ERR_VALIDATION_NULL_VALUE: &'static str = "Found `null` value but expected a non-null value";
+pub const MSG_DISP_ERR_VALIDATION_MISSING_VALUE: &'static str = "Missing one or more expected values";
 pub const MSG_DISP_ERR_VALIDATION_VALUE_EXTRA: &'static str = "Found one or more unexpected extra values";
 pub const MSG_DISP_ERR_VALIDATION_VALUE_INVALID: &'static str = "An invalid value was found";
 pub const MSG_DISP_ERR_VALIDATION_VALUE_FORMAT_INVALID: &'static str = "An invalid format was found";
